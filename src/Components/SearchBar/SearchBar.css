@@ -1,0 +1,73 @@
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px auto;
+    padding: 10px;
+    max-width: 800px; /* Center and restrict the width */
+    border-radius: 8px;
+    background: linear-gradient(135deg, #f4f9fd, #eaf3fc); /* Subtle gradient background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-input {
+    width: 700px;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 8px 0 0 8px;
+    outline: none;
+    font-size: 16px;
+    background-color: #ffffff;
+    color: #333;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .search-input:focus {
+    background-color: #f9fbfc; /* Slightly lighter background on focus */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4); /* Blue glow effect */
+  }
+  
+  .search-button {
+    padding: 12px 25px;
+    border: none;
+    background: linear-gradient(135deg, #007bff, #0056b3); /* Vibrant gradient */
+    color: #ffffff;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-button:hover {
+    background: linear-gradient(135deg, #0056b3, #003f8a); /* Darker gradient on hover */
+    transform: translateY(-2px); /* Lift effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .search-button:active {
+    transform: translateY(0); /* Reset lift effect on click */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  @media screen and (max-width: 768px) {
+    .search-bar {
+      flex-direction: column; /* Stack elements for smaller screens */
+      gap: 10px; /* Add spacing between input and button */
+    }
+  
+    .search-input {
+      width: 100%; /* Full width for mobile */
+      border-radius: 8px;
+    }
+  
+    .search-button {
+      width: 100%; /* Full width for mobile */
+      border-radius: 8px;
+    }
+  }
+  

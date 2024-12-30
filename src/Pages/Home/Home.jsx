@@ -1,33 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
+import './Home.css'; // Import the CSS file
+import Welcome from '../../Components/Welcome/Welcome';
+import SearchBar from '../../Components/SearchBar/SearchBar'; // Import the SearchBar component
+import PopularMedicines from '../../Components/PopularMedicines/PopularMedicines'; // Import the PopularMedicines component
 
 const Home = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const popularMedicines = ['Paracetamol', 'Ibuprofen', 'Aspirin', 'Amoxicillin'];
-
-  const handleSearch = () => {
-    if (searchTerm.trim()) {
-      window.location.href = `/search?name=${searchTerm}`;
-    }
-  };
-
   return (
     <div className="home">
-      <h1>Welcome to PharmaCompare</h1>
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search for medicines"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
-      </div>
-      <h2>Popular Medicines</h2>
-      <ul>
-        {popularMedicines.map((medicine, index) => (
-          <li key={index}>{medicine}</li>
-        ))}
-      </ul>
+      <Welcome />
+      <SearchBar />
+      <PopularMedicines />
     </div>
   );
 };
