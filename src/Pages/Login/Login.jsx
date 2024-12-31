@@ -26,6 +26,12 @@ const Login = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+      <input
+        type="password"
+        placeholder="ConfirmPassword"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
       <button onClick={handleLogin}>Login</button>
     </div>
   );

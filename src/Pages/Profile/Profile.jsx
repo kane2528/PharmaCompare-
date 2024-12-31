@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import './Profile.css';
 
 const Profile = () => {
-  const [favorites, setFavorites] = useState([]);
-
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      const response = await axios.get('/api/favorites', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
-      setFavorites(response.data);
-    };
-    fetchFavorites();
-  }, []);
+  // Mocked favorite medicines (replace with actual user data)
+  const favoriteMedicines = ['Paracetamol', 'Ibuprofen', 'Metformin'];
 
   return (
-    <div className="profile">
-      <h1>Your Favorite Medicines</h1>
-      <ul>
-        {favorites.map((medicine) => (
-          <li key={medicine.id}>{medicine.name}</li>
+    <div className="profile-container">
+      <h2>Welcome, [Username]</h2>
+      <h3>Your Favorite Medicines</h3>
+      <ul className="favorites-list">
+        {favoriteMedicines.map((medicine, index) => (
+          <li key={index} className="favorites-item">
+            {medicine}
+          </li>
         ))}
       </ul>
     </div>
