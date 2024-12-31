@@ -7,9 +7,14 @@ const Auth = () => {
     username: '',
     email: '',
     password: '',
+    confirmPassword: '',
   });
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const toggleMode = () => setIsSignup((prevMode) => !prevMode);
+  const toggleMode = () => {
+    setIsSignup((prevMode) => !prevMode);
+    setErrorMessage(''); // Clear any error when switching modes
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,7 +22,13 @@ const Auth = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (isSignup) {
+      if (formData.password !== formData.confirmPassword) {
+        setErrorMessage('Passwords do not match!');
+        return;
+      }
+      setErrorMessage('');
       console.log('Signup data:', formData);
       // Call signup API here
     } else {
@@ -56,6 +67,17 @@ const Auth = () => {
           onChange={handleChange}
           required
         />
+        {isSignup && (
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+        )}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
         <button type="submit" className="auth-button">
           {isSignup ? 'Sign Up' : 'Login'}
         </button>
