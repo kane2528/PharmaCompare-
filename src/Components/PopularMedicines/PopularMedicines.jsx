@@ -1,24 +1,35 @@
 import React from 'react';
-import './PopularMedicines.css'; // Add a CSS file for styling the popular medicines list
+import { useNavigate } from 'react-router-dom';
+import './PopularMedicines.css';
 
 const PopularMedicines = () => {
+  const navigate = useNavigate();
+
   const popularMedicines = [
-    { name: 'Paracetamol', image: 'paracetamol.webp' },
-    { name: 'Ibuprofen', image: 'ibuprofen.webp' },
-    { name: 'Aspirin', image: 'aspirin.jpg' },
-    { name: 'Amoxicillin', image: 'amoxicillin.webp' },
-    { name: 'Ciprofloxacin', image: 'ciprofloxacin.jpeg' },
-    { name: 'Metformin', image: 'metformin.jpeg' },
-    { name: 'Omeprazole', image: 'omeprazole.jpg' },
-    { name: 'Hydrochlorothiazide', image: 'hydrochlorothiazide.jpg' },
+    { id: '1', name: 'Paracetamol', image: 'paracetamol.webp' },
+    { id: '2', name: 'Ibuprofen', image: 'ibuprofen.webp' },
+    { id: '3', name: 'Aspirin', image: 'aspirin.jpg' },
+    { id: '4', name: 'Amoxicillin', image: 'amoxicillin.webp' },
+    { id: '5', name: 'Ciprofloxacin', image: 'ciprofloxacin.jpeg' },
+    { id: '6', name: 'Metformin', image: 'metformin.jpeg' },
+    { id: '7', name: 'Omeprazole', image: 'omeprazole.jpg' },
+    { id: '8', name: 'Hydrochlorothiazide', image: 'hydrochlorothiazide.jpg' },
   ];
+
+  const handleCardClick = (id) => {
+    navigate(`/medicines/${id}`);
+  };
 
   return (
     <div className="popular-medicines">
       <h2 className="popular-title">Popular Medicines</h2>
       <div className="medicine-card-container">
-        {popularMedicines.map((medicine, index) => (
-          <div key={index} className="medicine-card">
+        {popularMedicines.map((medicine) => (
+          <div
+            key={medicine.id}
+            className="medicine-card"
+            onClick={() => handleCardClick(medicine.id)}
+          >
             <img
               src={require(`../../assets/medicines/${medicine.image}`)}
               alt={medicine.name}

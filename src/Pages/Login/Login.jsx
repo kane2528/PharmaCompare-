@@ -6,10 +6,28 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    const response = await axios.post('/api/login', { email, password });
-    localStorage.setItem('token', response.data.token);
-    window.location.href = '/profile';
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        alert('Login successful');
+        navigate('/profile'); // Redirect to profile or dashboard
+      } else {
+        alert(data.message || 'Login failed');
+      }
+    } catch (error) {
+      console.error('Error during login:', error.message);
+      alert('An error occurred. Please try again.');
+    }
   };
+  
 
   return (
     <div className="login">

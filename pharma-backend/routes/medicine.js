@@ -1,18 +1,33 @@
 const express = require('express');
-const Medicine = require('../models/Medicine');
+const Medicine = require('../models/Medicine'); // Medicine model
 const router = express.Router();
 
-// Fetch medicines by name
+// Fetch all medicines or filter by name
 router.get('/', async (req, res) => {
   const { name } = req.query;
-  const medicines = await Medicine.find({ name: new RegExp(name, 'i') });
-  res.json(medicines);
+
+  try {
+    const medicines = name
+      ? await Medicine.find({ name: new RegExp(name, 'i') }) // Search by name
+      : await Medicine.find(); // Fetch all medicines
+
+    res.json(medicines);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
-// Fetch detailed medicine information by ID
-router.get('/:id', async (req, res) => {
-  const medicine = await Medicine.findById(req.params.id);
-  res.json(medicine);
+// Add a new medicine
+router.post('/', async (req, res) => {
+  const { name, description, price } = req.body;
+
+  try {
+    const medicine = new Medicine({ name, description, price });
+    await medicine.save();
+    res.status(201).json(medicine);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 module.exports = router;

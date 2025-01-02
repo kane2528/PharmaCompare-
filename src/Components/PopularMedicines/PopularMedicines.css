@@ -1,77 +1,56 @@
+/* Popular Medicines Container */
 .popular-medicines {
-    text-align: center;
-    margin: 40px auto;
-    max-width: 1200px; /* Center content and restrict max width */
-    background-color: #f4f9fd; /* Light background to enhance contrast */
-    padding: 20px 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .popular-title {
-    font-size: 30px;
-    margin-bottom: 30px;
-    color: #ff6f61; /* Bright and cheerful primary color */
-    font-family: 'Poppins', sans-serif; /* Elegant font */
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
-  
-  .medicine-card-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columns */
-    gap: 25px; /* Balanced spacing between cards */
-    justify-items: center;
-    align-items: center;
-  }
-  
-  .medicine-card {
-    background: linear-gradient(135deg, #ffffff, #f0f4f8); /* Subtle gradient for depth */
-    border-radius: 16px; /* Rounded corners */
-    box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.1), -2px -2px 6px rgba(255, 255, 255, 0.8); /* Soft shadow effect */
-    overflow: hidden;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-    width: 260px;
-    border: 2px solid #dce7f1; /* Light border for detail */
-  }
-  
-  .medicine-card:hover {
-    transform: translateY(-10px); /* Adds a dynamic hover effect */
-    box-shadow: 8px 10px 16px rgba(0, 0, 0, 0.2), -6px -6px 12px rgba(255, 255, 255, 0.9); /* More pronounced shadow */
-    background-color: #ffefeb; /* Highlighted color on hover */
-  }
-  
-  .medicine-image {
-    width: 100%;
-    height: 160px;
-    object-fit: cover; /* Ensures the image is resized properly */
-    border-bottom: 3px solid #ff6f61; /* Stylish accent border */
-  }
-  
-  .medicine-name {
-    font-size: 18px;
-    margin: 15px 0;
-    color: #333;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-  }
-  
-  .medicine-name:hover {
-    color: #ff6f61; /* Changes color when hovered */
-  }
-  
-  @media screen and (max-width: 1024px) {
-    .medicine-card-container {
-      grid-template-columns: repeat(2, 1fr); /* Adjust to 2 columns for smaller screens */
-      gap: 20px;
-    }
-  }
-  
-  @media screen and (max-width: 600px) {
-    .medicine-card-container {
-      grid-template-columns: 1fr; /* Single column for very small screens */
-    }
-  }
-  
+  padding: 20px;
+  background-color: #f8f9fa; /* Light background color */
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  text-align: center;
+}
+
+.popular-title {
+  color: #072a63;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+/* Grid layout for cards: 4 columns and 2 rows */
+.medicine-card-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  grid-template-rows: repeat(2, auto); /* 2 rows */
+  gap: 20px; /* Space between cards */
+  padding: 0;
+}
+
+/* Individual medicine card */
+.medicine-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.medicine-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Medicine image styling */
+.medicine-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+/* Medicine name styling */
+.medicine-name {
+  color: #072a63;
+  font-size: 1.2rem;
+  margin-top: 10px;
+}

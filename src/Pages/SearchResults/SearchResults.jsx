@@ -1,24 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import axios from 'axios';
-
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import './SearchResults.css';
 const SearchResults = () => {
-  const [searchParams] = useSearchParams();
   const [pharmacies, setPharmacies] = useState([]);
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [searchParams] = useSearchParams();
+  const medicineName = searchParams.get("name");
 
   useEffect(() => {
-    const fetchData = async () => {
-      const medicineName = searchParams.get('name');
-      const response = await axios.get(`/api/pharmacies?medicineName=${medicineName}`);
-      setPharmacies(response.data);
+    const fetchSearchResults = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/pharmacies?name=${medicineName}`);
+        const data = await response.json();
+        setPharmacies(data);
+      } catch (error) {
+        console.error("Error fetching search results:", error.message);
+      }
     };
-    fetchData();
-  }, [searchParams]);
 
-  const sortPharmacies = (order) => {
+    if (medicineName) {
+      fetchSearchResults();
+    }
+  }, [medicineName]);
+
+  const handleSort = (order) => {
     const sorted = [...pharmacies].sort((a, b) =>
-      order === 'asc' ? a.price - b.price : b.price - a.price
+      order === "asc" ? a.price - b.price : b.price - a.price
     );
     setPharmacies(sorted);
     setSortOrder(order);
@@ -26,16 +33,34 @@ const SearchResults = () => {
 
   return (
     <div className="search-results">
-      <h1>Search Results</h1>
-      <button onClick={() => sortPharmacies('asc')}>Sort by Price (Low to High)</button>
-      <button onClick={() => sortPharmacies('desc')}>Sort by Price (High to Low)</button>
-      <ul>
-        {pharmacies.map((pharmacy) => (
-          <li key={pharmacy.id}>
-            {pharmacy.name} - ${pharmacy.price}
-          </li>
-        ))}
-      </ul>
+      <h1>Search Results for "{medicineName}"</h1>
+      <div className="sort-buttons">
+        <button
+          onClick={() => handleSort("asc")}
+          className={sortOrder === "asc" ? "active" : ""}
+        >
+          Sort by Price (Ascending)
+        </button>
+        <button
+          onClick={() => handleSort("desc")}
+          className={sortOrder === "desc" ? "active" : ""}
+        >
+          Sort by Price (Descending)
+        </button>
+      </div>
+      {pharmacies.length > 0 ? (
+        <ul className="pharmacies-list">
+          {pharmacies.map((pharmacy, index) => (
+            <li key={index} className="pharmacy-card">
+              <h3>{pharmacy.pharmacyName}</h3>
+              <p>Price: ${pharmacy.price}</p>
+              <p>Address: {pharmacy.address}</p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No results found.</p>
+      )}
     </div>
   );
 };

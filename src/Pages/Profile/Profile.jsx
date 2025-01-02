@@ -1,18 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import './Profile.css';
-
 const Profile = () => {
-  // Mocked favorite medicines (replace with actual user data)
-  const favoriteMedicines = ['Paracetamol', 'Ibuprofen', 'Metformin'];
+  const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      const response = await fetch("http://localhost:5000/api/users/favorites", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      const data = await response.json();
+      setFavorites(data);
+    };
+
+    fetchFavorites();
+  }, []);
 
   return (
-    <div className="profile-container">
-      <h2>Welcome, [Username]</h2>
-      <h3>Your Favorite Medicines</h3>
-      <ul className="favorites-list">
-        {favoriteMedicines.map((medicine, index) => (
-          <li key={index} className="favorites-item">
-            {medicine}
+    <div>
+      <h1>Your Favorite Medicines</h1>
+      <ul>
+        {favorites.map((medicine) => (
+          <li key={medicine._id}>
+            <h3>{medicine.name}</h3>
+            <p>{medicine.description}</p>
           </li>
         ))}
       </ul>

@@ -1,39 +1,58 @@
+// src/Pages/Auth/Auth.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Auth.css';
 
 const Auth = () => {
-  const [isSignup, setIsSignup] = useState(false);
+  const [isSignup, setIsSignup] = useState(true);
   const [formData, setFormData] = useState({
-    username: '',
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   const toggleMode = () => {
     setIsSignup((prevMode) => !prevMode);
-    setErrorMessage(''); // Clear any error when switching modes
+    setErrorMessage('');
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (isSignup) {
-      if (formData.password !== formData.confirmPassword) {
-        setErrorMessage('Passwords do not match!');
+    const url = isSignup
+      ? 'http://localhost:5000/api/auth/signup'
+      : 'http://localhost:5000/api/auth/login';
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErrorMessage(data.message);
         return;
       }
-      setErrorMessage('');
-      console.log('Signup data:', formData);
-      // Call signup API here
-    } else {
-      console.log('Login data:', formData);
-      // Call login API here
+
+      if (isSignup) {
+        alert('Signup successful! Please log in.');
+        navigate('/auth'); // Redirect to login page
+      } else {
+        localStorage.setItem('token', data.token);
+        navigate('/profile'); // Redirect to profile page
+      }
+    } catch (error) {
+      setErrorMessage('An error occurred. Please try again later.');
     }
   };
 
@@ -44,9 +63,9 @@ const Auth = () => {
         {isSignup && (
           <input
             type="text"
-            name="username"
-            placeholder="Username"
-            value={formData.username}
+            name="name"
+            placeholder="Name"
+            value={formData.name}
             onChange={handleChange}
             required
           />

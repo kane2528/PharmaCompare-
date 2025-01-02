@@ -1,35 +1,71 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Home from '../../Pages/Home/Home';
-import SearchResults from '../../Pages/SearchResults/SearchResults';
-import MedicineDetails from '../../Pages/MedicineDetails/MedicineDetails';
-import Login from '../../Pages/Login/Login';
+import React, { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Navbar.css';
-import Auth from '../../Pages/Auth/Auth';
-import Profile from '../../Pages/Profile/Profile';
 
 const Navbar = () => {
-  return (
-    <div className="navbar-container">
-      <Router>
-        <nav className="navbar">
-          <ul className="navbar-links">
-            <li><Link to="/" className="navbar-link">Home</Link></li>
-            <li><Link to="/search" className="navbar-link">Search</Link></li>
-            <li><Link to="/medicine/:id" className="navbar-link">Medicine Details</Link></li>
-            <li><Link to="/Login" className="navbar-link">Login</Link></li>
-          </ul>
-        </nav>
-        <Routes>
-  <Route path="/" element={<Home />} />
-  <Route path="/search" element={<SearchResults />} />
-  <Route path="/medicine/:id" element={<MedicineDetails />} />
-  <Route path="/login" element={<Auth/>} />
-  <Route path="/profile" element={<Profile />} />
-</Routes>
+  const [searchTerm, setSearchTerm] = useState('');
+  const location = useLocation();
+  const navigate = useNavigate();
 
-      </Router>
-    </div>
+  // Handle search submission
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim() !== '') {
+      navigate(`/search?name=${searchTerm}`);
+      setSearchTerm(''); // Clear the search bar after submission
+    }
+  };
+
+  return (
+    <nav className="navbar">
+      <div className="navbar-logo">
+        <Link to="/" className="navbar-brand">PharmaCompare</Link>
+      </div>
+      <ul className="navbar-links">
+        <li>
+          <Link
+            to="/"
+            className={`navbar-link ${location.pathname === '/' ? 'active' : ''}`}
+          >
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/medicines"
+            className={`navbar-link ${location.pathname === '/medicines' ? 'active' : ''}`}
+          >
+            All Medicines
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/auth"
+            className={`navbar-link ${location.pathname === '/auth' ? 'active' : ''}`}
+          >
+            Login/Signup
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/profile"
+            className={`navbar-link ${location.pathname === '/profile' ? 'active' : ''}`}
+          >
+            Profile
+          </Link>
+        </li>
+      </ul>
+      {/* Search Bar */}
+      <form className="search-bar" onSubmit={handleSearch}>
+        <input
+          type="text"
+          placeholder="Search for medicines..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button type="submit">Search</button>
+      </form>
+    </nav>
   );
 };
 
